@@ -7,7 +7,8 @@
 //
 // Mallspråk i src/: {{> namn}} tar in src/partials/namn.html, {{site.a.b}} skriver ett värde
 // (HTML-escapat), {{{site.a.b}}} skriver det oescapat, {{#demo}}…{{/demo}} visas bara i demoläge,
-// {{^demo}}…{{/demo}} bara i skarpt läge, och {{tag site.epost.exempel Exempel}} skriver en gul
+// {{^demo}}…{{/demo}} bara i skarpt läge, {{#if site.a.b}}…{{/if}} visas när värdet är sant och
+// {{^if site.a.b}}…{{/if}} när det är tomt, och {{tag site.epost.exempel Exempel}} skriver en gul
 // etikett i demoläge när värdet är sant.
 
 import { cp, mkdir, rm, writeFile, readFile, stat } from 'node:fs/promises';
@@ -23,8 +24,8 @@ const site = { ...config, demoMode: process.env.DEMO === '1' ? true : config.dem
 
 const pages = [
   { src: 'index.html', out: 'index.html', path: '', nav: 'start',
-    title: `${site.namn} – plåtslageri som underentreprenör i Stockholm`,
-    description: `${site.namn} i ${site.ort} utför byggnadsplåtslageri och takarbeten som underentreprenör åt plåtslagerier och byggföretag i ${site.lan}. Medlem i ${site.bransch.namn}.` },
+    title: `Plåtslageri som underentreprenör i Stockholm – ${site.kortnamn}`,
+    description: `Byggnadsplåtslagare i ${site.ort}. Underentreprenör åt plåtslagerier och byggföretag i Stockholm: falsade tak, bandtäckning, takavvattning och tätskikt. Medlem i ${site.bransch.namn}.` },
   { src: 'integritetspolicy.html', out: 'integritetspolicy/index.html', path: 'integritetspolicy/', nav: 'integritet',
     title: `Integritetspolicy – ${site.namn}`,
     description: `Så behandlar ${site.namn} personuppgifter som lämnas via formuläret på webbplatsen.` },
@@ -49,6 +50,9 @@ async function render(template, ctx) {
   // Villkor för demoläge
   out = out.replace(/\{\{#demo\}\}([\s\S]*?)\{\{\/demo\}\}/g, (_, inner) => (ctx.demo ? inner : ''));
   out = out.replace(/\{\{\^demo\}\}([\s\S]*?)\{\{\/demo\}\}/g, (_, inner) => (ctx.demo ? '' : inner));
+  // Allmänna villkor på ett värde
+  out = out.replace(/\{\{#if\s+([\w.]+)\s*\}\}([\s\S]*?)\{\{\/if\}\}/g, (_, keyPath, inner) => (lookup(ctx, keyPath) ? inner : ''));
+  out = out.replace(/\{\{\^if\s+([\w.]+)\s*\}\}([\s\S]*?)\{\{\/if\}\}/g, (_, keyPath, inner) => (lookup(ctx, keyPath) ? '' : inner));
   // Etiketter: {{tag site.epost.exempel Exempel}}
   out = out.replace(/\{\{tag\s+([\w.]+)\s+([^}]+?)\s*\}\}/g, (_, keyPath, label) => (
     ctx.demo && lookup(ctx, keyPath) ? ` <span class="tag">${esc(label)}</span>` : ''
@@ -74,18 +78,38 @@ async function build() {
   await cp(path.join(root, 'assets'), path.join(dist, 'assets'), { recursive: true });
 
   const base = site.url.replace(/\/$/, '') + site.basePath;
-  const today = new Date().toISOString().slice(0, 10);
   const year = new Date().getFullYear();
+  const ogImage = base + 'assets/img/og.jpg';
+  // Strukturerad data för startsidan, byggd som riktig JSON så att inga HTML-entiteter smyger in.
+  const ldJson = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'RoofingContractor',
+    name: site.namn,
+    url: base,
+    image: ogImage,
+    telephone: site.telefon.lank,
+    email: site.epost.adress,
+    vatID: site.momsnr,
+    address: { '@type': 'PostalAddress', addressLocality: site.ort, addressRegion: site.lan, addressCountry: 'SE' },
+    foundingDate: String(site.grundat),
+    areaServed: { '@type': 'AdministrativeArea', name: site.lan },
+    memberOf: { '@type': 'Organization', name: site.bransch.namn, url: site.bransch.url },
+    knowsAbout: ['Byggnadsplåtslageri', 'Falsade plåttak', 'Bandtäckning', 'Takavvattning', 'Tätskikt']
+  }).replace(/<\//g, '<\\/');
 
   for (const page of pages) {
     const rel = page.absolute ? site.basePath : relFrom(page.path);
+    const canonical = base + (page.absolute ? '' : page.path);
     const ctx = {
-      site, page, rel, year,
+      site, page, rel, year, base, ogImage, ldJson, canonical,
       demo: site.demoMode,
       demoAttr: site.demoMode ? 'true' : 'false',
-      canonical: base + (page.absolute ? '' : page.path),
-      ogImage: base + 'assets/img/og.jpg',
-      base
+      // Felsidan ska inte indexeras och har ingen egen adress, därför noindex i stället för canonical.
+      canonicalTag: page.noSitemap
+        ? '<meta name="robots" content="noindex">'
+        : `<link rel="canonical" href="${canonical}">`,
+      // Utan JavaScript postas formuläret hit: formulärtjänsten om en är angiven, annars e-post.
+      formAction: site.formEndpoint || 'mailto:' + site.epost.adress
     };
     const html = await render(await readFile(path.join(src, page.src), 'utf8'), ctx);
     const full = path.join(dist, page.out);
@@ -93,7 +117,7 @@ async function build() {
     await writeFile(full, html);
   }
 
-  const urls = pages.filter((p) => !p.noSitemap).map((p) => `  <url><loc>${base}${p.path}</loc><lastmod>${today}</lastmod></url>`);
+  const urls = pages.filter((p) => !p.noSitemap).map((p) => `  <url><loc>${base}${p.path}</loc></url>`);
   await writeFile(path.join(dist, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`);
   await writeFile(path.join(dist, 'robots.txt'),
@@ -108,6 +132,13 @@ async function build() {
     if (site.epost.exempel) kvar.push(`E-postadressen ${site.epost.adress} är ett antagande (epost.exempel)`);
     if (!site.formEndpoint) kvar.push('Ingen formEndpoint: formuläret öppnar besökarens e-postprogram (mailto)');
     if (kvar.length) { console.warn('\nATT STÄMMA AV FÖRE LANSERING:'); kvar.forEach((k) => console.warn('  - ' + k)); console.warn(''); }
+    // I GitHub Actions stoppas publiceringen tills telefon och e-post är bekräftade, så att inga
+    // obekräftade kontaktuppgifter går live av misstag. Sätt TILLAT_OBEKRAFTAT=1 för att tvinga igenom.
+    const stoppar = kvar.filter((k) => !k.startsWith('Ingen formEndpoint'));
+    if (stoppar.length && process.env.GITHUB_ACTIONS && !process.env.TILLAT_OBEKRAFTAT) {
+      console.error('Publiceringen stoppas tills uppgifterna ovan är bekräftade (telefon.bekraftas och epost.exempel satta till false i content/site.mjs).');
+      process.exitCode = 1;
+    }
   }
 }
 

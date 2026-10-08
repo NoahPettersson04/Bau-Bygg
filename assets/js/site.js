@@ -1,7 +1,8 @@
-/* BauBygg & Plåtslageri – formulärhantering och mobilmeny.
-   Formuläret fungerar även utan skriptet: vanlig POST till angiven mottagare,
-   eller mailto: när ingen mottagare är angiven. I demoläge (data-demo="true")
-   skickas inget alls, bara en bekräftelse visas. */
+/* BauBygg & Plåtslageri – formulärhantering, mobilmeny och hero-parallax.
+   Formuläret fungerar även utan skriptet: webbläsaren validerar fälten och postar
+   till action (formulärtjänsten, eller mailto: när ingen tjänst är angiven).
+   Skriptet gör upplevelsen bättre: skickar i bakgrunden, visar bekräftelse på sidan
+   och fångar fel. I demoläge (data-demo="true") skickas inget alls. */
 (function () {
   'use strict';
 
@@ -27,7 +28,11 @@
     form.addEventListener('submit', function (event) {
       var honey = form.querySelector('input[name="_gotcha"]');
       if (honey && honey.value) { event.preventDefault(); return; }
-      if (typeof form.checkValidity === 'function' && !form.checkValidity()) { return; }
+      if (typeof form.checkValidity === 'function' && !form.checkValidity()) {
+        event.preventDefault();
+        if (typeof form.reportValidity === 'function') { form.reportValidity(); }
+        return;
+      }
 
       event.preventDefault();
 
@@ -41,7 +46,7 @@
       }
 
       var button = form.querySelector('button[type="submit"]');
-      if (button) { button.disabled = true; }
+      if (button) { if (button.disabled) { return; } button.disabled = true; }
       form.classList.remove('is-error');
 
       fetch(endpoint, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) })
@@ -65,7 +70,8 @@
 
   function showSuccess(form, mode) {
     var box = document.getElementById(form.getAttribute('data-success'));
-    form.hidden = true;
+    // I mailto-läget har inget skickats än, så formuläret får stå kvar.
+    if (mode !== 'mail') { form.hidden = true; }
     if (!box) { return; }
     Array.prototype.forEach.call(box.querySelectorAll('[data-when]'), function (p) {
       p.hidden = p.getAttribute('data-when') !== mode;

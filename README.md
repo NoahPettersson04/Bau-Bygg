@@ -22,6 +22,8 @@ Sajten är statisk: vanlig HTML, CSS och lite JavaScript. Inga ramverk och inga 
 
 ## Ändra innehåll
 
+Utan Node och utan att installera något: öppna filen på github.com, klicka på pennan, ändra, välj *Commit changes* direkt till `main`. Fliken *Actions* visar en grön bock när ändringen ligger ute (tar ungefär en minut).
+
 - **Uppgifter** (telefon, e-post, ort, org.nr, länkar): `content/site.mjs`.
 - **Texter**: `src/index.html`. Mallsyntaxen är enkel: `{{site.telefon.visning}}` skriver ett värde, `{{#demo}}…{{/demo}}` visas bara i demoläge, `{{^demo}}…{{/demo}}` bara i skarpt läge.
 - **Bilder**: `assets/img/`. Behåll ungefär samma format vid byte: hero 16:9 (2000 px bred, plus en 1200 px-variant), tjänstebilder 4:5, Om oss 4:3, delningsbild `og.jpg` 1200×630.
@@ -31,22 +33,23 @@ Bygg om med `node build.mjs` och titta med `node build.mjs --serve`. Vid push ti
 
 ## Att stämma av före lansering
 
-Bygget skriver ut en lista om något av detta kvarstår:
+**Publiceringen i GitHub Actions stoppar medvetet** tills punkt 1 och 2 är klara, så att inga obekräftade kontaktuppgifter går live av misstag. Bygget skriver ut vad som återstår. (Nödbroms: variabeln `TILLAT_OBEKRAFTAT=1` i workflowen släpper igenom bygget ändå.)
 
-1. **Telefonnumret** 072-371 25 17 kommer från bolagsregister (krafman.se, merinfo.se), inte från företaget. Bekräfta och sätt `telefon.bekraftas: false`.
-2. **E-postadressen** info@bauplat.se är ett antagande utifrån domänen. Den måste finnas och läsas av någon. Bekräfta och sätt `epost.exempel: false`.
-3. **Formuläret** skickar i dag via besökarens e-postprogram (mailto) eftersom `formEndpoint` är tomt. Det fungerar, men sämre på datorer utan e-postprogram. Rekommenderat: skaffa ett gratis konto hos Formspree eller Web3Forms, klistra in adressen i `formEndpoint`, så skickas förfrågan i bakgrunden och besökaren får en bekräftelse på sidan.
+1. **Telefonnumret** 072-371 25 17 kommer från bolagsregister (krafman.se, merinfo.se), inte från företaget. Ring numret, bekräfta med BauBygg och sätt `telefon.bekraftas: false` i `content/site.mjs`.
+2. **E-postadressen** info@bauplat.se är ett antagande utifrån domänen. Domänen bauplat.se har i dag (oktober 2026) **inga MX-poster**, alltså ingen e-post alls. Innan lansering måste e-post sättas upp hos Loopia (eller Google Workspace/Microsoft 365) och adressen skapas och läsas av någon. Skicka ett testmejl, bekräfta och sätt `epost.exempel: false`.
+3. **Formuläret** skickar i dag via besökarens e-postprogram (mailto) eftersom `formEndpoint` är tomt. Det fungerar, men sämre på datorer utan e-postprogram. Rekommenderat: skaffa ett gratis konto hos Formspree eller Web3Forms, klistra in adressen i `formEndpoint` och leverantörens namn i `formTjanst` (nämns i integritetspolicyn), så skickas förfrågan i bakgrunden och besökaren får en bekräftelse på sidan. Detta stoppar inte bygget.
 
-Övrigt som är beslutat i utkastet: gatuadressen visas inte (bara orten), fotona är fria bilder från Unsplash och bör bytas mot egna, kontaktperson namnges inte.
+Övrigt som är beslutat i utkastet: gatuadressen visas inte (bara orten), fotona är fria bilder från Unsplash och bör bytas mot egna, kontaktperson namnges inte. Observera att e-handelslagen (8 §) förväntar sig att ett företag anger geografisk adress på sin webbplats; vill BauBygg följa det fullt ut behöver en post- eller besöksadress läggas till i sidfoten och integritetspolicyn.
 
 ## Lansera på bauplat.se (GitHub Pages)
 
 Engångsinställningar i GitHub-repot (Settings → Pages):
 
-1. **Source**: välj *GitHub Actions*. Workflowen som kördes vid första pushen misslyckas i steget *deploy* tills detta är gjort; kör om den under Actions (*Re-run all jobs*) eller pusha igen. Sajten dyker först upp på `https://noahpettersson04.github.io/bau-bygg/`.
-2. **Custom domain**: skriv `bauplat.se` och spara. Bocka i *Enforce HTTPS* när valet blir tillgängligt (kan dröja upp till ett dygn efter att DNS pekar rätt).
+1. **Source**: välj *GitHub Actions*. Workflowen som kördes vid första pushen misslyckas i steget *deploy* tills detta är gjort; kör om den under Actions (*Re-run all jobs*) eller pusha igen. Sajten dyker först upp på `https://noahpettersson04.github.io/bau-bygg/` (där ser 404-sidan ostylad ut eftersom den använder absoluta sökvägar för bauplat.se; det rättar sig när domänen är kopplad).
+2. **Verifiera domänen** (skyddar mot att någon annan kopplar bauplat.se till sin sida): github.com → Settings → Pages → *Add a domain* → `bauplat.se`. GitHub visar en TXT-post (`_github-pages-challenge-noahpettersson04`) som läggs in hos Loopia. Klicka *Verify* när den slagit igenom.
+3. **Custom domain** i repots Settings → Pages: skriv `bauplat.se` (ett enda fält; www behöver inte läggas till, GitHub skickar www.bauplat.se vidare till bauplat.se så snart CNAME-posten nedan finns). Bocka i *Enforce HTTPS* när valet blir tillgängligt (kan dröja upp till ett dygn efter att DNS pekar rätt).
 
-DNS hos den som har domänen bauplat.se (Loopia, One.com, Binero eller liknande):
+DNS hos Loopia (Kundzon → bauplat.se → DNS-inställningar). Domänen ligger i dag på Loopias namnservrar, och både `@` och `www` har A-poster till Loopias parkeringssida (194.9.94.85 och 194.9.94.86). **Ta bort dem först**, för både `@` och `www`, och lägg sedan in:
 
 | Typ | Namn | Värde |
 |---|---|---|
@@ -60,13 +63,13 @@ DNS hos den som har domänen bauplat.se (Loopia, One.com, Binero eller liknande)
 | AAAA | @ | 2606:50c0:8003::153 |
 | CNAME | www | noahpettersson04.github.io |
 
-Ta bort eventuella gamla A-poster eller "parkerad sida"-poster för @. Lägg gärna till `www.bauplat.se` som alternativ i Pages-inställningen också, så fungerar både med och utan www. Adresserna ovan är GitHubs i oktober 2026; kontrollera mot [GitHubs dokumentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) om något inte går igenom.
+Adresserna ovan är GitHubs i oktober 2026; kontrollera mot [GitHubs dokumentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) om något inte går igenom. DNS-ändringar slår igenom inom någon timme.
 
-E-post på domänen (info@bauplat.se) påverkas inte av detta, den styrs av MX-posterna.
+E-post på domänen (info@bauplat.se) påverkas inte av webbplatsens A-poster, den styrs av MX-posterna. I dag finns inga MX-poster alls, se punkt 2 under *Att stämma av före lansering*.
 
 ### Annat webbhotell
 
-`dist/` är en vanlig statisk webbplats. Kör `node build.mjs` och ladda upp innehållet i `dist/` till webbhotellet, eller peka Netlify eller Cloudflare Pages på repot med byggkommandot `node build.mjs` och publiceringsmapp `dist`. På ett Apache-webbhotell läggs `ErrorDocument 404 /404.html` i en `.htaccess`.
+`dist/` är en vanlig statisk webbplats. Kör `node build.mjs` och ladda upp innehållet i `dist/` till webbhotellet, eller peka Netlify eller Cloudflare Pages på repot med byggkommandot `node build.mjs` och publiceringsmapp `dist`. På ett Apache-webbhotell läggs `ErrorDocument 404 /404.html` i en `.htaccess`. Filen `dist/CNAME` (från `domain` i `content/site.mjs`) används bara vid publicering från en gren eller på annat webbhotell; GitHub Pages via Actions ignorerar den och tar domänen från inställningarna.
 
 ## Demoläge
 

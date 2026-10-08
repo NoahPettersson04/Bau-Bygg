@@ -2,9 +2,7 @@
 <html lang="sv">
 <head>
 {{> head}}
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"RoofingContractor","name":"{{site.namn}}","url":"{{base}}","image":"{{ogImage}}","telephone":"{{site.telefon.lank}}","email":"{{site.epost.adress}}","address":{"@type":"PostalAddress","addressLocality":"{{site.ort}}","addressRegion":"{{site.lan}}","addressCountry":"SE"},"foundingDate":"{{site.grundat}}","areaServed":{"@type":"AdministrativeArea","name":"{{site.lan}}"},"memberOf":{"@type":"Organization","name":"{{site.bransch.namn}}","url":"{{site.bransch.url}}"},"knowsAbout":["Byggnadsplåtslageri","Falsade plåttak","Bandtäckning","Takavvattning","Tätskikt"]}
-</script>
+<script type="application/ld+json">{{{ldJson}}}</script>
 </head>
 <body>
 {{> header}}
@@ -22,10 +20,10 @@
 <a class="btn btn--copper" href="#kontakt">Skicka förfrågan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a class="btn btn--ghost" href="tel:{{site.telefon.lank}}">Ring {{site.telefon.visning}}</a>
 </div>
-<ul class="trust" aria-label="Snabbfakta">
+<ul class="trust" role="list" aria-label="Snabbfakta">
 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.3l3 3 6-6.3"/></svg>Godkänd för F-skatt</li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.3l3 3 6-6.3"/></svg>Medlem i {{site.bransch.namn}}</li>
-<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.3l3 3 6-6.3"/></svg>Verksamma sedan {{site.grundat}}</li>
+<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.3l3 3 6-6.3"/></svg>Grundat {{site.grundat}}</li>
 <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.3l3 3 6-6.3"/></svg>{{site.ort}}, norr om Stockholm</li>
 </ul>
 </div>
@@ -35,7 +33,7 @@
 <div class="wrap statement__grid">
 <div>
 <h2 id="statement-h">Ett extra lag när ert eget inte räcker till</h2>
-<p>{{site.kortnamn}} arbetar uteslutande som underentreprenör. Vi går in i pågående projekt, säsongstoppar och större takentreprenader, med egen arbetsledning eller under er platsledning, och lämnar jobbet i er standard.</p>
+<p>{{site.kortnamn}} arbetar uteslutande som underentreprenör. Vi går in i pågående projekt, säsongstoppar och större takentreprenader under er platsledning, och lämnar jobbet i er standard.</p>
 </div>
 <div class="statement__aside">
 <a class="btn btn--light" href="#kontakt">Beskriv jobbet <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -55,9 +53,9 @@
 </div>
 <div class="values">
 <div class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17 12 5l9 12"/><path d="M7.5 17V11.2M12 17V8.5M16.5 17V11.2"/><path d="M2.5 20h19"/></svg><h3>Byggnadsplåt i fokus</h3><p>Nio av tio timmar lägger vi på plåt: falsade tak, bandtäckning, beslag, gesimser och takavvattning.</p></div>
-<div class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><h3>Snabbt på plats</h3><p>Ett litet företag med korta beslutsvägar. Säg när ni behöver förstärkning så får ni ett rakt besked.</p></div>
+<div class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><h3>Snabbt besked</h3><p>Ett litet företag med korta beslutsvägar. Säg när ni behöver förstärkning så får ni ett rakt besked.</p></div>
 <div class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg><h3>Ordning på papperen</h3><p>Godkända för F-skatt, momsregistrerade och medlemmar i branschorganisationen {{site.bransch.namn}}.</p></div>
-<div class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"/><path d="M4 13h16M9 20v-5h6v5"/></svg><h3>Hela Stockholmsområdet</h3><p>Vi utgår från {{site.ort}} och tar uppdrag i hela {{site.lan}}.</p></div>
+<div class="value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"/><path d="M4 13h16M9 20v-5h6v5"/></svg><h3>Stockholmsområdet</h3><p>Vi utgår från {{site.ort}} och tar uppdrag i Stockholmsområdet.</p></div>
 </div>
 </div>
 </section>
@@ -75,12 +73,12 @@
 <article class="svc">
 <div class="svc__side">
 <div class="svc__share">90 %<small>av vår tid</small></div>
-<img class="svc__img" src="{{rel}}assets/img/falsat-tak.jpg" alt="Grått falsat plåttak med takkupa" width="1200" height="1500" loading="lazy" decoding="async">
+<img class="svc__img" src="{{rel}}assets/img/falsat-tak-600.jpg" srcset="{{rel}}assets/img/falsat-tak-600.jpg 600w, {{rel}}assets/img/falsat-tak.jpg 1200w" sizes="(max-width: 600px) 100vw, (max-width: 860px) 220px, 24vw" alt="Grått falsat plåttak med takkupa" width="600" height="750" loading="lazy" decoding="async">
 </div>
 <div>
 <h3>Byggnadsplåtslageri</h3>
-<p class="svc__text">Falsad plåt på tak och fasad, bandtäckning, listbeslag och all takavvattning. Vi arbetar efter era ritningar och beskrivningar, i det material ert projekt kräver – målad stålplåt, zink, aluminium eller koppar.</p>
-<ul class="svc__list">
+<p class="svc__text">Falsad plåt på tak och fasad, bandtäckning, listbeslag och all takavvattning. Vi arbetar efter era ritningar och beskrivningar, i det material och utförande ert projekt föreskriver.</p>
+<ul class="svc__list" role="list">
 <li>Falsade tak och bandtäckning</li>
 <li>Fasadplåt och listbeslag</li>
 <li>Hängrännor, stuprör och takavvattning</li>
@@ -95,12 +93,12 @@
 <article class="svc">
 <div class="svc__side">
 <div class="svc__share">10 %<small>av vår tid</small></div>
-<img class="svc__img" src="{{rel}}assets/img/tatskikt.jpg" alt="Låglutande tak med tätskikt sett ovanifrån" width="1036" height="1295" loading="lazy" decoding="async">
+<img class="svc__img" src="{{rel}}assets/img/tatskikt-600.jpg" srcset="{{rel}}assets/img/tatskikt-600.jpg 600w, {{rel}}assets/img/tatskikt.jpg 1036w" sizes="(max-width: 600px) 100vw, (max-width: 860px) 220px, 24vw" alt="Låglutande tak med tätskikt sett ovanifrån" width="600" height="750" loading="lazy" decoding="async">
 </div>
 <div>
 <h3>Tak och tätskikt</h3>
 <p class="svc__text">Takläggning och tätskiktsarbeten som komplement till plåten, så att ni kan lämna över ett helt takmoment till ett och samma lag. Vi tar både nyläggning och omläggning i samband med takrenovering.</p>
-<ul class="svc__list">
+<ul class="svc__list" role="list">
 <li>Takläggning vid om- och nybyggnad</li>
 <li>Tätskikt på låglutande tak</li>
 <li>Genomföringar och anslutningar mot plåt</li>
@@ -126,7 +124,7 @@
 <span class="eyebrow">Plåtslagerier</span>
 <h3>Förstärkning i egna projekt</h3>
 <p>När orderboken är full eller en entreprenad växer tar vi delar av jobbet, eller hela moment, i ert namn och er standard.</p>
-<ul>
+<ul role="list">
 <li>Extra lag vid säsongstoppar</li>
 <li>Avgränsade moment, till exempel all takavvattning</li>
 <li>Vi fakturerar er, ni fakturerar kunden</li>
@@ -136,10 +134,10 @@
 <span class="eyebrow">Bygg- och takentreprenörer</span>
 <h3>Plåten i er entreprenad</h3>
 <p>För byggföretag och takentreprenörer utan eget plåtslageri sköter vi plåtmomenten från beslag till färdigt falsat tak.</p>
-<ul>
+<ul role="list">
 <li>Plåtarbeten i total- och utförandeentreprenader</li>
 <li>Samordning med takläggare och snickare på plats</li>
-<li>Fasta priser eller löpande räkning</li>
+<li>Pris och villkor enligt överenskommelse</li>
 </ul>
 </article>
 </div>
@@ -157,7 +155,7 @@
 </div>
 <ol class="steps">
 <li class="step"><h3>Förfrågan</h3><p>Ring eller skicka ritning, mängder och tidplan. Vi återkommer med besked om när vi kan vara på plats och vad det kostar.</p></li>
-<li class="step"><h3>Bemanning och uppstart</h3><p>Vi kommer överens om omfattning, arbetsledning och avstämningar. Vi kan arbeta under er platsledning eller leda momentet själva.</p></li>
+<li class="step"><h3>Bemanning och uppstart</h3><p>Vi kommer överens om omfattning, kontaktvägar och avstämningar, och arbetar under er platsledning.</p></li>
 <li class="step"><h3>Genomförande och överlämning</h3><p>Vi arbetar i ert projekts standard, dokumenterar det som behövs och lämnar över ett tak eller en fasad som är klar att besiktiga.</p></li>
 </ol>
 </div>
@@ -168,10 +166,10 @@
 <div>
 <span class="eyebrow">Om oss</span>
 <h2 class="h2" id="om-h">Plåtslagare från {{site.ort}}</h2>
-<p class="about__body">{{site.namn}} har varit verksamt sedan {{site.grundat}} och arbetar i dag helt som underentreprenör åt plåtslagerier och byggföretag i Stockholmsområdet. Bolaget utför takarbeten i plåt, byggnadsplåtslageri och tillverkning av plåtdetaljer, med tak och tätskikt som komplement.</p>
-<p class="about__body">Vi är ett litet företag som hellre gör färre jobb ordentligt än många jobb halvbra. Det är därför våra uppdragsgivare ringer igen.</p>
+<p class="about__body">{{site.namn}} grundades {{site.grundat}} och arbetar i dag helt som underentreprenör åt plåtslagerier och byggföretag i Stockholmsområdet. Bolaget utför takarbeten i plåt, byggnadsplåtslageri och tillverkning av plåtdetaljer, med tak och tätskikt som komplement.</p>
+<p class="about__body">Vi är ett litet företag som hellre gör färre jobb ordentligt än många jobb halvbra.</p>
 <dl class="facts">
-<div><dt>Verksamma sedan</dt><dd>{{site.grundat}}</dd></div>
+<div><dt>Grundat</dt><dd>{{site.grundat}}</dd></div>
 <div><dt>Säte</dt><dd>{{site.ort}}</dd></div>
 <div><dt>Skatt</dt><dd>F-skatt och moms</dd></div>
 <div><dt>Branschorganisation</dt><dd>{{site.bransch.namn}}</dd></div>
@@ -179,9 +177,9 @@
 </div>
 <div class="plate">
 <img class="plate__img" src="{{rel}}assets/img/koppar-zink.jpg" alt="Fasad i koppar och mörk falsad plåt mot blå himmel" width="1600" height="1200" loading="lazy" decoding="async">
-<span class="plate__k">Material vi arbetar i</span>
-<p class="plate__v">Stålplåt, zink, aluminium och koppar</p>
-<p class="plate__t">Vi arbetar i det material ert projekt föreskriver och efter era ritningar.</p>
+<span class="plate__k">Efter era ritningar</span>
+<p class="plate__v">Ert projekt, er standard</p>
+<p class="plate__t">Vi arbetar i det material och utförande ert projekt föreskriver, efter era ritningar och beskrivningar.</p>
 </div>
 </div>
 </section>
@@ -200,19 +198,19 @@
 </details>
 <details>
 <summary>Vilka material arbetar ni med?<span class="pm"></span></summary>
-<p>Det material ert projekt föreskriver: målad stålplåt, zink, aluminium och koppar. Vi arbetar efter era ritningar och beskrivningar.</p>
+<p>Det material ert projekt föreskriver. Vi arbetar efter era ritningar och beskrivningar, i den standard ert projekt kräver.</p>
 </details>
 <details>
 <summary>Kan ni gå in i ett pågående projekt?<span class="pm"></span></summary>
-<p>Ja, det är det vanligaste. Vi tar över avgränsade moment eller förstärker ert lag under en period, med er platsledning eller egen arbetsledning.</p>
+<p>Ja. Vi tar över avgränsade moment eller förstärker ert lag under en period, under er platsledning.</p>
 </details>
 <details>
 <summary>Var i landet arbetar ni?<span class="pm"></span></summary>
-<p>Vi utgår från {{site.ort}} och tar uppdrag i hela {{site.lan}}. Längre bort efter överenskommelse.</p>
+<p>Vi utgår från {{site.ort}} och tar uppdrag i Stockholmsområdet.</p>
 </details>
 <details>
 <summary>Hur fakturerar ni?<span class="pm"></span></summary>
-<p>Vi fakturerar er som uppdragsgivare, till fast pris eller på löpande räkning enligt överenskommelse. Vi är godkända för F-skatt.</p>
+<p>Vi fakturerar er som uppdragsgivare enligt överenskommelse. Vi är godkända för F-skatt.</p>
 </details>
 </div>
 </div>
@@ -233,18 +231,20 @@
 </div>
 <div>
 <div class="success" id="forfragan-tack" role="status" hidden>
-<h3>Tack för din förfrågan</h3>
+<h3 data-when="mail" hidden>Ett steg kvar</h3>
+<h3 data-when="sent" hidden>Tack för din förfrågan</h3>
+{{#demo}}<h3 data-when="demo" hidden>Tack för din förfrågan</h3>
 <p data-when="demo" hidden>I demon skickas inget. På den färdiga sidan går förfrågan direkt till {{site.kortnamn}}.</p>
-<p data-when="mail" hidden>Ditt e-postprogram har öppnats med uppgifterna ifyllda. Skicka meddelandet därifrån, så återkommer vi.</p>
+{{/demo}}<p data-when="mail" hidden>Ditt e-postprogram bör ha öppnats med uppgifterna ifyllda. Skicka meddelandet därifrån. Öppnades inget? Mejla uppgifterna till <a href="mailto:{{site.epost.adress}}">{{site.epost.adress}}</a>.</p>
 <p data-when="sent" hidden>Vi återkommer så snart vi kan.</p>
 </div>
-<form class="form" id="forfragan" method="post" action="{{site.formEndpoint}}" data-form data-demo="{{demoAttr}}" data-endpoint="{{site.formEndpoint}}" data-success="forfragan-tack" data-mailto="{{site.epost.adress}}" data-subject="Förfrågan via {{site.domain}}" novalidate>
+<form class="form" id="forfragan" method="post" action="{{formAction}}" data-form data-demo="{{demoAttr}}" data-endpoint="{{site.formEndpoint}}" data-success="forfragan-tack" data-mailto="{{site.epost.adress}}" data-subject="Förfrågan via {{site.domain}}">
 <h3>Förfrågan</h3>
 <div class="field"><label for="f-foretag">Företag</label><input id="f-foretag" name="foretag" autocomplete="organization" required{{#demo}} value="Exempel Plåt AB"{{/demo}}></div>
 <div class="field"><label for="f-namn">Kontaktperson</label><input id="f-namn" name="namn" autocomplete="name" required{{#demo}} value="Anna Lindqvist"{{/demo}}></div>
-<div class="field"><label for="f-tel">Telefon</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel"{{#demo}} value="070-123 45 67"{{/demo}}></div>
+<div class="field"><label for="f-tel">Telefon (valfritt)</label><input id="f-tel" name="telefon" type="tel" autocomplete="tel"{{#demo}} value="070-123 45 67"{{/demo}}></div>
 <div class="field"><label for="f-mail">E-post</label><input id="f-mail" name="epost" type="email" autocomplete="email" required{{#demo}} value="anna@exempelplat.se"{{/demo}}></div>
-<div class="field"><label for="f-typ">Typ av uppdrag</label>
+<div class="field"><label for="f-typ">Typ av uppdrag (valfritt)</label>
 <select id="f-typ" name="typ">
 <option>Byggnadsplåtslageri</option>
 <option>Takavvattning och beslag</option>
@@ -253,8 +253,8 @@
 <option>Annat</option>
 </select>
 </div>
-<div class="field"><label for="f-start">Önskad start</label><input id="f-start" name="start"{{#demo}} value="Vecka 46"{{/demo}}></div>
-<div class="field field--full"><label for="f-msg">Beskriv jobbet</label><textarea id="f-msg" name="meddelande" required>{{#demo}}Falsat tak ca 420 kvm på flerbostadshus i Sollentuna, målad stålplåt. Behöver ett lag i 3–4 veckor från mitten av november.{{/demo}}</textarea></div>
+<div class="field"><label for="f-start">Önskad start (valfritt)</label><input id="f-start" name="start"{{#demo}} value="Vecka 46"{{/demo}}></div>
+<div class="field field--full"><label for="f-msg">Beskriv jobbet <span class="hint">(max 1200 tecken, ritningar mejlas separat)</span></label><textarea id="f-msg" name="meddelande" maxlength="1200" required>{{#demo}}Falsat tak ca 420 kvm på flerbostadshus i Sollentuna, målad stålplåt. Behöver ett lag i 3–4 veckor från mitten av november.{{/demo}}</textarea></div>
 <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">
 <div class="form__error">Något gick fel när förfrågan skulle skickas. Ring oss på <a href="tel:{{site.telefon.lank}}">{{site.telefon.visning}}</a> eller mejla <a href="mailto:{{site.epost.adress}}">{{site.epost.adress}}</a>.</div>
 <div class="form__foot">

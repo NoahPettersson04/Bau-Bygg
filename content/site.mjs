@@ -8,8 +8,10 @@ export const site = {
   kortnamn: 'BauBygg',
   tagline: 'Plåtslageri som underentreprenör i Stockholm',
 
-  // Webbplatsens publika adress. Används för canonical-länkar, sitemap, delningsbild och CNAME.
+  // Webbplatsens publika adress. Används för canonical-länkar, sitemap och delningsbild.
   url: 'https://bauplat.se',
+  // Skrivs till dist/CNAME. Används bara vid publicering från en gren eller på annat webbhotell;
+  // på GitHub Pages via Actions styrs domänen av Settings → Pages → Custom domain.
   domain: 'bauplat.se',
   // Sökväg under domänen om webbplatsen inte ligger i roten, t.ex. '/sajt/'. Annars '/'.
   basePath: '/',
@@ -19,9 +21,11 @@ export const site = {
   demoMode: false,
 
   // Formulär. Ange en tjänst som tar emot POST, t.ex. Formspree ('https://formspree.io/f/xxxxxxxx')
-  // eller Web3Forms ('https://api.web3forms.com/submit'). Lämnas fältet tomt öppnar formuläret
-  // besökarens e-postprogram med uppgifterna ifyllda, adresserat till epost.adress.
+  // eller Web3Forms ('https://api.web3forms.com/submit'), och leverantörens namn i formTjanst
+  // (nämns i integritetspolicyn). Lämnas formEndpoint tomt öppnar formuläret besökarens
+  // e-postprogram med uppgifterna ifyllda, adresserat till epost.adress.
   formEndpoint: '',
+  formTjanst: '',
 
   // BEKRÄFTA: numret kommer från bolagsregister (krafman.se, merinfo.se), inte från företaget.
   telefon: { visning: '072-371 25 17', lank: '+46723712517', bekraftas: true },
@@ -31,7 +35,12 @@ export const site = {
   ort: 'Upplands Väsby',
   lan: 'Stockholms län',
   orgnr: '559005-4556',
+  // Momsregistreringsnummer: svenskt format SE + org.nr + 01 (bolaget är momsregistrerat enligt allabolag.se).
+  momsnr: 'SE559005455601',
+  // Bolaget registrerades 2015. Nuvarande namn sedan 2021. BEKRÄFTA när plåtslageriverksamheten startade.
   grundat: 2015,
+  // Datum då integritetspolicyn senast ändrades. Uppdatera vid ändring.
+  policyDatum: '8 oktober 2026',
 
   bransch: { namn: 'Plåt & Ventföretagen', url: 'https://www.pvforetagen.se/' },
 
