@@ -1,5 +1,5 @@
 # Bygger webbplatsen och publicerar dist/ till GitHub Pages vid varje push till main.
-# Engångsinställning i repot: Settings → Pages → Source: "GitHub Actions", Custom domain: bauplat.se.
+# Pages slås på automatiskt vid första körningen. Engångsinställning i repot: Settings → Pages → Custom domain: bauplat.se.
 name: Publicera till GitHub Pages
 
 on:
@@ -21,6 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      # Slår på GitHub Pages med källan "GitHub Actions" automatiskt första gången.
+      - uses: actions/configure-pages@v6
+        with:
+          enablement: true
       - uses: actions/setup-node@v7
         with:
           node-version: 22
