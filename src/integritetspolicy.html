@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+{{> head}}
+</head>
+<body>
+{{> header}}
+
+<main id="innehall">
+<section class="page-head">
+<div class="wrap">
+<span class="hero__kicker">Personuppgifter</span>
+<h1>Integritetspolicy</h1>
+<p class="lede">Så behandlar {{site.namn}} de uppgifter du lämnar via webbplatsen.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="wrap"><div class="prose">
+<h2>Vem ansvarar för uppgifterna</h2>
+<p>{{site.namn}}, organisationsnummer {{site.orgnr}}, {{site.ort}}, är personuppgiftsansvarig för behandlingen av personuppgifter på den här webbplatsen. Du når oss på <a href="mailto:{{site.epost.adress}}">{{site.epost.adress}}</a> eller <a href="tel:{{site.telefon.lank}}">{{site.telefon.visning}}</a>.</p>
+
+<h2>Vilka uppgifter vi samlar in</h2>
+<p>Bara de uppgifter du själv skriver in i förfrågningsformuläret: företag, namn, telefon, e-post, typ av uppdrag, önskad start och den text du skickar. Webbplatsen använder inga kakor och inga analys- eller spårningsverktyg. Typsnitt och bilder laddas från vår egen server, inte från tredje part.</p>
+
+<h2>Varför och med vilket stöd</h2>
+<p>Uppgifterna används för att besvara din förfrågan, lämna besked om kapacitet och pris och, om vi kommer överens, för att förbereda uppdraget. Den rättsliga grunden är att behandlingen är nödvändig för att vidta åtgärder inför ett avtal på din begäran, och vårt berättigade intresse av att kunna svara på förfrågningar från företag.</p>
+
+<h2>Hur länge vi sparar uppgifterna</h2>
+<p>Förfrågningar som inte leder till uppdrag raderas senast tolv månader efter vårt senaste svar. Uppgifter som ingår i ett uppdrag sparas så länge uppdraget pågår och därefter så länge bokförings- och garantiregler kräver.</p>
+
+<h2>Vem som får uppgifterna</h2>
+<p>Uppgifterna hanteras av oss på {{site.kortnamn}}. Om formuläret skickas via en formulärtjänst passerar uppgifterna den leverantörens servrar innan de når vår e-post. Vi säljer inte uppgifter och lämnar inte ut dem till andra än de leverantörer vi behöver för att driva e-post och webbplats.</p>
+
+<h2>Dina rättigheter</h2>
+<ul>
+<li>Du har rätt att få veta vilka uppgifter vi har om dig och få en kopia.</li>
+<li>Du har rätt att få felaktiga uppgifter rättade och, i många fall, raderade.</li>
+<li>Du har rätt att invända mot behandling som bygger på berättigat intresse.</li>
+<li>Du har rätt att klaga hos Integritetsskyddsmyndigheten (IMY) om du anser att vi behandlar dina uppgifter fel.</li>
+</ul>
+<p>Kontakta oss på <a href="mailto:{{site.epost.adress}}">{{site.epost.adress}}</a> så hjälper vi dig.</p>
+
+<p class="meta">Policyn uppdaterades i oktober {{year}}. Vi kan komma att ändra den när webbplatsen eller lagstiftningen ändras. Den senaste versionen finns alltid här.</p>
+</div></div>
+</section>
+</main>
+
+{{> footer}}
+</body>
+</html>
