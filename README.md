@@ -44,7 +44,7 @@ Bygget skriver ut en lista om något av detta kvarstår:
 Engångsinställningar i GitHub-repot (Settings → Pages):
 
 1. **Source**: välj *GitHub Actions*. Pusha till `main` (eller kör workflowen manuellt under Actions) så byggs och publiceras sajten. Den dyker först upp på `https://noahpettersson04.github.io/bau-bygg/`.
-2. **Custom domain**: skriv `bauplat.se` och spara. Bocka i *Enforce HTTPS* när certifikatet är klart (kan ta upp till en timme efter att DNS pekar rätt).
+2. **Custom domain**: skriv `bauplat.se` och spara. Bocka i *Enforce HTTPS* när valet blir tillgängligt (kan dröja upp till ett dygn efter att DNS pekar rätt).
 
 DNS hos den som har domänen bauplat.se (Loopia, One.com, Binero eller liknande):
 
