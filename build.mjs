@@ -25,7 +25,7 @@ const site = { ...config, demoMode: process.env.DEMO === '1' ? true : config.dem
 const pages = [
   { src: 'index.html', out: 'index.html', path: '', nav: 'start',
     title: `Plåtslageri som underentreprenör i Stockholm – ${site.kortnamn}`,
-    description: `Byggnadsplåtslagare i ${site.ort}. Underentreprenör åt plåtslagerier och byggföretag i Stockholm: falsade tak, bandtäckning, takavvattning och tätskikt. Medlem i ${site.bransch.namn}.` },
+    description: `Byggnadsplåtslagare i ${site.ort}. Underentreprenör åt plåtslagerier och byggföretag i Stockholm: falsade tak, bandtäckning, takavvattning och tätskikt.` },
   { src: 'integritetspolicy.html', out: 'integritetspolicy/index.html', path: 'integritetspolicy/', nav: 'integritet',
     title: `Integritetspolicy – ${site.namn}`,
     description: `Så behandlar ${site.namn} personuppgifter som lämnas via formuläret på webbplatsen.` },
